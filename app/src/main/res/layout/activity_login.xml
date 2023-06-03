@@ -51,7 +51,7 @@ android:background="@color/colorAccent">
     android:background="@drawable/buttons"
     android:layout_marginTop="15dp"
     android:padding="10dp"
-    android:text="Sign Up"/>
+    android:text="Log in"/>
 
 <TextView
     android:layout_width="wrap_content"

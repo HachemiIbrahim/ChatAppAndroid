@@ -3,7 +3,6 @@ package com.example.chatapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,6 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
 
+
         LoginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,9 +103,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             progressDialog.dismiss();
-                                            Toast.makeText(SignUpActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                                            finish();
+                                            EmailVerification();
+
                                         }
                                     }
                                 });
@@ -117,6 +116,25 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "error happened", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void EmailVerification() {
+        auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(SignUpActivity.this, "Please verify your account to use the app", Toast.LENGTH_SHORT).show();
+                if(auth.getCurrentUser().isEmailVerified()) {
+                    Toast.makeText(SignUpActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                    finish();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(SignUpActivity.this, "error happened", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

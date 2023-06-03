@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText Password;
     private TextView SignUpText;
     private Button LoginButton;
+    private TextView ForgetPassword;
     private ProgressDialog progressDialog;
     private FirebaseAuth auth;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         Password = findViewById(R.id.password);
         SignUpText = findViewById(R.id.signup_text);
         LoginButton = findViewById(R.id.login_button);
+        ForgetPassword = findViewById(R.id.forget_password_text);
 
         progressDialog = new ProgressDialog(this);
 
@@ -51,6 +53,30 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this , SignUpActivity.class));
+            }
+        });
+
+        ForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String textEmail = Email.getText().toString();
+                if(TextUtils.isEmpty(textEmail)){
+                    Toast.makeText(LoginActivity.this, "Enter Your Email", Toast.LENGTH_SHORT).show();
+                }else {
+                    auth.sendPasswordResetEmail(textEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this, "a reset password email has been sent", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
