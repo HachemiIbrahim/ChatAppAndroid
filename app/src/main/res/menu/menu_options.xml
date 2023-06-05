@@ -8,8 +8,8 @@
         app:showAsAction="never"></item>
 
     <item
-        android:title="Settings"
-        android:id="@+id/settings"
+        android:title="Profile"
+        android:id="@+id/profile"
         app:showAsAction="never"></item>
 
     <item

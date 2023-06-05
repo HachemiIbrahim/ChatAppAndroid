@@ -97,6 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                         map.put("Name", textFullName);
                         map.put("Email", textEmail);
                         map.put("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        map.put("imageURL" , "default");
 
                         database.child("Users").child(auth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -125,7 +126,9 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(SignUpActivity.this, "Please verify your account to use the app", Toast.LENGTH_SHORT).show();
                 if(auth.getCurrentUser().isEmailVerified()) {
                     Toast.makeText(SignUpActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     finish();
                 }
             }

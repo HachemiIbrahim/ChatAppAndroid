@@ -54,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if (item.getItemId() == R.id.settings){
+        if (item.getItemId() == R.id.profile){
 
+            startActivity(new Intent(MainActivity.this , ProfileActivity.class));
         }
         return true;
     }
