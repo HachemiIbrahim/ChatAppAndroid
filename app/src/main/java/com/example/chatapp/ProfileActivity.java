@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("ChatApp");
 
         ProfilePicture = findViewById(R.id.profile_picture);
         Username = findViewById(R.id.username);
