@@ -13,4 +13,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="AlertDialod" parent="Theme.AppCompat.Light.Dialog">
+    </style>
 </resources>
