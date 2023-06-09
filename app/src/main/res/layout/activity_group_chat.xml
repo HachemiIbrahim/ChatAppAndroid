@@ -50,7 +50,7 @@
             android:layout_marginTop="7dp"/>
 
         <EditText
-            android:layout_width="270dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:id="@+id/message"
             android:hint="Message"

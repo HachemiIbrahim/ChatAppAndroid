@@ -14,17 +14,22 @@ public class GroupChatActivity extends AppCompatActivity {
     private ImageView Send;
     private ScrollView scrollView;
     private TextView displayMessages;
+    private String currentGroupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
-        getSupportActionBar().setTitle("ChatApp");
+
+        currentGroupName = getIntent().getExtras().get("GroupName").toString();
+
+        getSupportActionBar().setTitle(currentGroupName);
 
         Message = findViewById(R.id.message);
         Send = findViewById(R.id.send_message);
         scrollView = findViewById(R.id.scroll_view);
         displayMessages = findViewById(R.id.group_chat_text_display);
+
 
     }
 }
