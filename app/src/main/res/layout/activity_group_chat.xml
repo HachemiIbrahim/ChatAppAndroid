@@ -17,19 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/group_chat_text_display"
-                android:padding="10dp"
-                android:textSize="25sp"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="50dp"/>
+            android:orientation="vertical"
+            android:id="@+id/chatContainer">
 
         </LinearLayout>
 
