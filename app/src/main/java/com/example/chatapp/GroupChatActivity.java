@@ -123,13 +123,19 @@ public class GroupChatActivity extends AppCompatActivity {
             String Time = ((DataSnapshot) iterator.next()).getValue().toString();
 
             TextView textView = new TextView(this);
+            TextView nameTextView = new TextView(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(16,8,16,8);
+            layoutParams.setMargins(16,12,16,8);
             textView.setPadding(16,8,16,8);
             textView.setTextColor(Color.BLACK);
+
+            nameTextView.setPadding(16,8,16,8);
+            nameTextView.setTextColor(Color.GRAY);
+            nameTextView.setTextSize(8);
+            nameTextView.setLabelFor(textView.getId());
             if(Name.equals(userName)){
                 textView.setBackgroundResource(R.drawable.outgoing_message_background);
                 layoutParams.gravity = Gravity.END;
@@ -139,8 +145,11 @@ public class GroupChatActivity extends AppCompatActivity {
             }
 
             textView.setLayoutParams(layoutParams);
-            textView.setText(Name + " : \n" + Message);
+            nameTextView.setLayoutParams(layoutParams);
+            textView.setText(Message);
+            nameTextView.setText(Name);
 
+            chatContainer.addView(nameTextView);
             chatContainer.addView(textView);
         }
     }
