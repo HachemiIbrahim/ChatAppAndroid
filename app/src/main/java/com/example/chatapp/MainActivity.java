@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(item.getItemId() == R.id.find_friends){
-
+            startActivity(new Intent(MainActivity.this , FindFriendsActivity.class));
         }
 
         if(item.getItemId() == R.id.create_group){
