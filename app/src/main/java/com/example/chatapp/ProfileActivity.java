@@ -123,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
                 imageUrl = downloadUri.toString();
 
                 HashMap<String , Object> map = new HashMap<>();
-                map.put("username" , Username.getText().toString());
+                map.put("Username" , Username.getText().toString());
                 map.put("imageURL" , imageUrl);
 
                 FirebaseDatabase.getInstance().getReference().child("Users")

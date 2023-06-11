@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FindFriendsActivity">
+    tools:context=".FindFriendsActivity"
+    android:background="@color/colorAccent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
