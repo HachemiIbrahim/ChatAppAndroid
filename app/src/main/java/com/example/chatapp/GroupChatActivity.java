@@ -75,6 +75,8 @@ public class GroupChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SendMessages();
                 Message.setText("");
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+
             }
         });
     }
@@ -151,6 +153,7 @@ public class GroupChatActivity extends AppCompatActivity {
 
             chatContainer.addView(nameTextView);
             chatContainer.addView(textView);
+            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
         }
     }
 
