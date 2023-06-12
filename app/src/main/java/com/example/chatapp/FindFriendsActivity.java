@@ -14,18 +14,26 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Model.contacts;
+import adapter.UserAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FindFriendsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private DatabaseReference UserReference;
-
+    private List<contacts> mUsers;
+    private UserAdapter userAdapter;
+    private DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,54 +43,33 @@ public class FindFriendsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.find_friends_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        UserReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        mUsers = new ArrayList<>();
+        userAdapter = new UserAdapter( mUsers,this);
+        recyclerView.setAdapter(userAdapter);
+        reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mUsers.clear();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    contacts contact = snapshot1.getValue(contacts.class);
+                    mUsers.add(contact);
+                }
+                userAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<contacts>().
-                setQuery(UserReference , contacts.class).build();
 
-        FirebaseRecyclerAdapter<contacts , FindFriendViewHolder> adapter = new
-                FirebaseRecyclerAdapter<contacts, FindFriendViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull FindFriendViewHolder holder, int position, @NonNull contacts model) {
-                        holder.username.setText(model.getUsername());
-                        if(model.getImageURL().equals("default")){
-                            holder.ProfilePicture.setImageResource(R.drawable.ic_profile);
-                        }else {
-                            Picasso.get().load(model.getImageURL()).into(holder.ProfilePicture);
-                        }
-                    }
-
-                    @NonNull
-                    @Override
-                    public FindFriendViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.friend_item , viewGroup , false);
-                        FindFriendViewHolder viewHolder = new FindFriendViewHolder(view);
-                        return viewHolder;
-                    }
-                };
-
-        recyclerView.setAdapter(adapter);
-
-        adapter.startListening();
-    }
-
-    public static class FindFriendViewHolder extends RecyclerView.ViewHolder{
-
-        public TextView username;
-        public CircleImageView ProfilePicture;
-
-        public FindFriendViewHolder(@NonNull View itemView) {
-            super(itemView);
-            username = itemView.findViewById(R.id.username);
-            ProfilePicture = itemView.findViewById(R.id.profile_picture);
-        }
-    }
 }
