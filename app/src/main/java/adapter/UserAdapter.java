@@ -16,16 +16,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import Model.User;
 import Model.contacts;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolser> {
 
-    private List<contacts> mUsers;
+    private List<User> mUsers;
     private Context mcontext;
     private FirebaseUser firebaseUser;
 
-    public UserAdapter(List<contacts> mUsers, Context mcontext) {
+    public UserAdapter(List<User> mUsers, Context mcontext) {
         this.mUsers = mUsers;
         this.mcontext = mcontext;
     }
@@ -39,13 +40,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolser> {
 
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolser holder, int position) {
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        contacts contact = mUsers.get(position);
-        holder.usernameTextView.setText(contact.getUsername());
-        if(contact.getImageURL().equals("default")){
+        User user = mUsers.get(position);
+        holder.usernameTextView.setText(user.getUsername());
+        if(user.getImageURL().equals("default")){
             holder.ProfilePicture.setImageResource(R.drawable.ic_profile);
         }else {
-            Picasso.get().load(contact.getImageURL()).into(holder.ProfilePicture);
+            Picasso.get().load(user.getImageURL()).into(holder.ProfilePicture);
         }
     }
 

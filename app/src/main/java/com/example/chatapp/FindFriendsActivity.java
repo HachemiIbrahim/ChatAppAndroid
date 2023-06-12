@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import Model.User;
 import Model.contacts;
 import adapter.UserAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -31,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FindFriendsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private List<contacts> mUsers;
+    private List<User> mUsers;
     private UserAdapter userAdapter;
     private DatabaseReference reference;
     @Override
@@ -51,23 +53,23 @@ public class FindFriendsActivity extends AppCompatActivity {
         mUsers = new ArrayList<>();
         userAdapter = new UserAdapter( mUsers,this);
         recyclerView.setAdapter(userAdapter);
-        reference = FirebaseDatabase.getInstance().getReference().child("Users");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    contacts contact = snapshot1.getValue(contacts.class);
-                    mUsers.add(contact);
-                }
-                userAdapter.notifyDataSetChanged();
-            }
+       FirebaseDatabase.getInstance().getReference().child("Users")
+               .addValueEventListener(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                           User user = dataSnapshot.getValue(User.class);
+                           mUsers.add(user);
+                           Log.i("number " , String.valueOf(mUsers.size()));
+                       }
+                       userAdapter.notifyDataSetChanged();
+                   }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                   }
+               });
     }
 
 
