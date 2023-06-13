@@ -14,9 +14,12 @@
         android:theme="@style/Theme.ChatApp"
         tools:targetApi="31">
         <activity
+            android:name=".FriendActivity"
+            android:exported="false" />
+        <activity
             android:name=".FindFriendsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".GroupChatActivity"
             android:exported="false" />

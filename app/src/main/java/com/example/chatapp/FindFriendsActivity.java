@@ -62,7 +62,6 @@ public class FindFriendsActivity extends AppCompatActivity {
                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                            User user = dataSnapshot.getValue(User.class);
                            mUsers.add(user);
-                           Log.i("number " , String.valueOf(mUsers.size()));
                        }
                        userAdapter.notifyDataSetChanged();
                    }
@@ -72,6 +71,7 @@ public class FindFriendsActivity extends AppCompatActivity {
 
                    }
                });
+
     }
 
 

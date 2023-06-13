@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatapp.FindFriendsActivity;
+import com.example.chatapp.FriendActivity;
 import com.example.chatapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,6 +50,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolser> {
         }else {
             Picasso.get().load(user.getImageURL()).into(holder.ProfilePicture);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String visit_uid = user.getId();
+                Intent intent = new Intent(mcontext , FriendActivity.class);
+                intent.putExtra("Uid",visit_uid);
+                mcontext.startActivity(intent);
+            }
+        });
     }
 
     @Override
