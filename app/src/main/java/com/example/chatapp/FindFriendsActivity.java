@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,7 +62,9 @@ public class FindFriendsActivity extends AppCompatActivity {
                    public void onDataChange(@NonNull DataSnapshot snapshot) {
                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                            User user = dataSnapshot.getValue(User.class);
-                           mUsers.add(user);
+                           if(!user.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                               mUsers.add(user);
+                           }
                        }
                        userAdapter.notifyDataSetChanged();
                    }
