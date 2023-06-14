@@ -39,10 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/send_message"
-        android:background="@drawable/buttons"
+        android:background="@color/colorPrimary"
         android:layout_marginTop="15dp"
         android:padding="10dp"
-        android:text="Send message"/>
+        android:text="Send Request"/>
 
 
 </LinearLayout>
