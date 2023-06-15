@@ -30,7 +30,7 @@ public class FriendActivity extends AppCompatActivity {
     private CircleImageView ProfilePicture;
     private TextView Username;
     private TextView FullName;
-    private Button SendMessage;
+    private Button SendMessage,DeclineRequest;
     private DatabaseReference reference;
     private DatabaseReference ChatRequestReference;
     private String uid;
@@ -47,19 +47,43 @@ public class FriendActivity extends AppCompatActivity {
         Username = findViewById(R.id.username);
         FullName = findViewById(R.id.full_name);
         SendMessage = findViewById(R.id.send_message);
+        DeclineRequest = findViewById(R.id.decline_message);
+
         uid = getIntent().getExtras().get("Uid").toString();
         currentUserid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
         ChatRequestReference = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         stat = "new";
 
+        FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserid).child(uid)
+                .child("contact").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            stat = "friend";
+                            SendMessage.setVisibility(View.INVISIBLE);
+                            DeclineRequest.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
         ChatRequestReference.child(currentUserid).child(uid).child("request type").
                 addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    stat = "sent";
-                    SendMessage.setText("CANCEL REQUEST");
+                    stat = snapshot.getValue(String.class);
+                    if(stat.equals("sent")) {
+                        SendMessage.setText("CANCEL REQUEST");
+                    } else if (stat.equals("received")) {
+                        SendMessage.setText("Accept Request");
+                        DeclineRequest.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -93,11 +117,49 @@ public class FriendActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(stat.equals("new")) {
                     SendRequest();
-                }else {
+                }else if(stat.equals("sent")){
                     CancelRequest();
+                }else if(stat.equals("received")){
+                    AcceptRequest();
                 }
             }
         });
+
+        DeclineRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (stat.equals("received")){
+                    CancelRequest();
+                    DeclineRequest.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+    }
+
+    private void AcceptRequest() {
+        FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserid).child(uid)
+                .child("contact").setValue("saved").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            FirebaseDatabase.getInstance().getReference().child("Contacts")
+                                .child(uid).child(currentUserid).child("contact").setValue("saved")
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()) {
+                                                ChatRequestReference.child(currentUserid).removeValue();
+                                                ChatRequestReference.child(uid).removeValue();
+                                                SendMessage.setVisibility(View.GONE);
+                                                DeclineRequest.setVisibility(View.GONE);
+                                                Toast.makeText(FriendActivity.this, "You are Friends now", Toast.LENGTH_SHORT).show();
+                                                stat = "friend";
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     private void CancelRequest() {

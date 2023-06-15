@@ -44,5 +44,14 @@
         android:padding="10dp"
         android:text="Send Request"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/decline_message"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:text="decline Request"
+        android:visibility="invisible"/>
 
 </LinearLayout>
