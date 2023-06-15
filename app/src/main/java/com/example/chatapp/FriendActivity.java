@@ -59,6 +59,7 @@ public class FriendActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     stat = "sent";
+                    SendMessage.setText("CANCEL REQUEST");
                 }
             }
 
@@ -67,14 +68,6 @@ public class FriendActivity extends AppCompatActivity {
 
             }
         });
-
-        if(stat == "new") {
-            SendMessage.setText("Send Request");
-            SendMessage.requestLayout();
-        }else {
-            SendMessage.setText("Cancel Request");
-            SendMessage.requestLayout();
-        }
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -111,6 +104,9 @@ public class FriendActivity extends AppCompatActivity {
         ChatRequestReference.child(currentUserid).removeValue();
         ChatRequestReference.child(uid).removeValue();
         Toast.makeText(this, "Request canceled", Toast.LENGTH_SHORT).show();
+        stat = "new";
+        SendMessage.setText("SEND REQUEST");
+
     }
 
 
