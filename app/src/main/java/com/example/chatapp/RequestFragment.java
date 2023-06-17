@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +37,10 @@ public class RequestFragment extends Fragment {
     private FirebaseAuth auth;
     private DatabaseReference reference;
     private String uid;
+    private String currentUserid;
+    private DatabaseReference ChatRequestReference;
+
+
 
     public RequestFragment() {
         // Required empty public constructor
@@ -49,6 +56,8 @@ public class RequestFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext() , LinearLayoutManager.VERTICAL));
         auth = FirebaseAuth.getInstance();
+        ChatRequestReference = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
+        currentUserid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         reference = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         uid = auth.getCurrentUser().getUid();
 
@@ -67,7 +76,43 @@ public class RequestFragment extends Fragment {
                 holder.itemView.findViewById(R.id.accept).setVisibility(View.VISIBLE);
                 holder.itemView.findViewById(R.id.refuse).setVisibility(View.VISIBLE);
 
-                String id = getRef(position).getKey();
+               String id = getRef(position).getKey();
+
+                holder.Accept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserid).child(id)
+                                .child("contact").setValue("saved").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            FirebaseDatabase.getInstance().getReference().child("Contacts")
+                                                    .child(id).child(currentUserid).child("contact").setValue("saved")
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful()) {
+                                                                ChatRequestReference.child(currentUserid).removeValue();
+                                                                ChatRequestReference.child(id).removeValue();
+                                                                Toast.makeText(getContext(), "You are Friends now", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                    }
+                });
+
+                holder.Refuse.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChatRequestReference.child(currentUserid).removeValue();
+                        ChatRequestReference.child(id).removeValue();
+                        Toast.makeText(getContext(), "Request canceled", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
                 DatabaseReference typeReference = getRef(position).child("request type").getRef();
                 typeReference.addValueEventListener(new ValueEventListener() {
