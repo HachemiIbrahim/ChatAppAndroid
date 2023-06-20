@@ -1,5 +1,6 @@
 package com.example.chatapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -72,12 +73,22 @@ public class ChatFragment extends Fragment {
                                 .addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        holder.Username.setText(snapshot.child("Username").getValue().toString());
-                                        String url = snapshot.child("imageURL").getValue().toString();
-                                        if(url.equals("default")){
-                                            holder.ProfilePicture.setImageResource(R.drawable.ic_profile);
-                                        }else {
-                                            Picasso.get().load(url).into(holder.ProfilePicture);
+                                        if(snapshot.exists()) {
+                                            holder.Username.setText(snapshot.child("Username").getValue().toString());
+                                            String url = snapshot.child("imageURL").getValue().toString();
+                                            if (url.equals("default")) {
+                                                holder.ProfilePicture.setImageResource(R.drawable.ic_profile);
+                                            } else {
+                                                Picasso.get().load(url).into(holder.ProfilePicture);
+                                            }
+                                            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent intent = new Intent(getContext() , ChatActivity.class);
+                                                    intent.putExtra("id" , id);
+                                                    startActivity(intent);
+                                                }
+                                            });
                                         }
                                     }
 
