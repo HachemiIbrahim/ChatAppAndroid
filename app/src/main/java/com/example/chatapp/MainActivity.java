@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(item.getItemId() == R.id.create_group){
-            NewGroupeRequest();
+            startActivity(new Intent(MainActivity.this , CreateGroupActivity.class));
         }
 
         if (item.getItemId() == R.id.profile){
@@ -77,43 +78,4 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void NewGroupeRequest() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("New group");
-        final EditText GroupName = new EditText(MainActivity.this);
-        GroupName.setHint("enter the group name");
-        builder.setView(GroupName);
-
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String groupName = GroupName.getText().toString();
-                if(TextUtils.isEmpty(groupName)){
-                    Toast.makeText(MainActivity.this, "Please enter a group name", Toast.LENGTH_SHORT).show();
-                }else {
-                    CreateNewGroup(groupName);
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    private void CreateNewGroup(String groupName) {
-        reference.child("Groups").child(groupName).setValue("")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(MainActivity.this, groupName + " is created successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
 }
