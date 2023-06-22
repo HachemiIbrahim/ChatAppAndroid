@@ -97,7 +97,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                 imageUrl = downloadUri.toString();
 
                 HashMap<String , Object> map = new HashMap<>();
-                map.put("Group Name" , GroupName.getText().toString());
+                map.put("GroupName" , GroupName.getText().toString());
                 map.put("imageURL" , imageUrl);
 
                 FirebaseDatabase.getInstance().getReference().child("Groups")

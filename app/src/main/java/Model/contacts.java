@@ -15,8 +15,7 @@ public class contacts {
         return Username;
     }
 
-    public void setUsername(String Username) {
-        this.Username = Username;
+    public void setUsername(String Username) {        this.Username = Username;
     }
 
     public String getImageURL() {
