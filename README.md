@@ -23,3 +23,11 @@ Open the project in Android Studio.<br>
 Resolve Dependencies.<br>
 Build the project.<br>
 Run the project.<br>
+
+<img src="images/Screenshot_20230623_183338_ChatApp.jpg" alt="Image Description" width="300" height="500"><img src="images/Screenshot_20230623_183345_ChatApp.jpg" alt="Image Description" width="300" height="500">
+<img src="images/Screenshot_20230623_184000_ChatApp.jpg" alt="Image Description" width="300" height="500">
+<img src="images/Screenshot_20230623_184221_ChatApp.jpg" alt="Image Description" width="300" height="500">
+<img src="images/Screenshot_20230623_183825_ChatApp.jpg" alt="Image Description" width="300" height="500">
+<img src="images/Screenshot_20230623_183832_ChatApp.jpg" alt="Image Description" width="300" height="500">
+<img src="images/Screenshot_20230623_184209_ChatApp.jpg" alt="Image Description" width="300" height="500">
+<img src="images/Screenshot_20230623_184459_ChatApp.jpg" alt="Image Description" width="300" height="500">
