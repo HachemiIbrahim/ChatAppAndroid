@@ -18,8 +18,8 @@ The Chat App is a real-time messaging application designed to facilitate seamles
 <h1>Project Setup</h1>
 
    To get started with the project, follow these steps:
-1-Clone the repository to your local machine
-2-Open the project in Android Studio
-3-Resolve Dependencies
-4-Build the project
-5-Run the project
+Clone the repository to your local machine.
+Open the project in Android Studio.
+Resolve Dependencies.
+Build the project.
+Run the project.
