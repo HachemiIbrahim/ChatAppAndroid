@@ -1,7 +1,8 @@
 # ChatApp
  
-This is a chat application built using Java and Firebase, with the FirebaseUI library for user authentication and real-time messaging. The app allows users to register, log in, and communicate with other users in real-time through text messages.
-<h1>Features</h1>
+The Chat App is a real-time messaging application designed to facilitate seamless communication between users. It provides a platform for individuals or groups to exchange messages in real-time.
+
+<h1>Key Features</h1>
 
     User registration and login: Users can create new accounts and log in using their credentials.
     Real-time messaging: Users can send and receive text messages in real-time with other registered users.
@@ -12,16 +13,13 @@ This is a chat application built using Java and Firebase, with the FirebaseUI li
 
     Java: The programming language used to develop the application.
     Firebase: A cloud-based platform that provides various services including authentication and real-time database.
-    FirebaseUI: A library that simplifies the process of implementing Firebase authentication in Android applications.
 
 
-<h1>Installation</h1>
+<h1>Project Setup</h1>
 
-    Clone the repository or download the source code.
-    Open the project in Android Studio.
-    Set up the Firebase project in the Firebase console (https://console.firebase.google.com).
-    Connect the app to the Firebase project by following the Firebase setup instructions provided by Firebase console.
-    Enable Firebase Authentication and Firebase Realtime Database for your project.
-    Update the Firebase configuration file google-services.json in the project directory with your own Firebase project credentials.
-    Build and run the application on an Android emulator or physical device.
-
+   To get started with the project, follow these steps:
+1-Clone the repository to your local machine
+2-Open the project in Android Studio
+3-Resolve Dependencies
+4-Build the project
+5-Run the project
